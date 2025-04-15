@@ -6,7 +6,7 @@ import NumberFlow from "@number-flow/react";
 import { useState } from "react";
 
 export function SliderForm() {
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(1789);
 
   function changeValue(value: number[]) {
     setValue(value[0]);
