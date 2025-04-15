@@ -3,7 +3,7 @@ import { artworksSchema, env, xappTokenSchema } from "@/zod";
 // const ARTWORKS_LENGTH = 27577;
 
 export async function getToken() {
-  const { token } = xappTokenSchema.parse(
+  return xappTokenSchema.parse(
     await (
       await fetch("https://api.artsy.net/api/tokens/xapp_token", {
         method: "POST",
@@ -17,7 +17,6 @@ export async function getToken() {
       })
     ).json()
   );
-  return token;
 }
 
 export async function getArtwork(token: string) {

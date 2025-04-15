@@ -3,7 +3,7 @@ import { getArtwork, getToken } from "@/lib/api";
 import Image from "next/image";
 
 export default async function Home() {
-  const token = await getToken();
+  const { token } = await getToken();
 
   const artwork = await getArtwork(token);
 
@@ -16,7 +16,7 @@ export default async function Home() {
         height={500}
         className="m-auto flex-1 h-auto w-auto object-contain"
       />
-      <SliderForm />
+      <SliderForm artwork={artwork} />
     </main>
   );
 }

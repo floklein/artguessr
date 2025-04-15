@@ -21,8 +21,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header className="flex h-14 items-center px-4 sm:px-8 border-b">
-            <h1 className="text-2xl font-serif">Artguessr</h1>
+          <header className="flex items-center border-b">
+            <div className="border-r px-4 py-2 sm:px-6 sm:py-4">
+              <h1 className="text-2xl font-serif">Artguessr</h1>
+            </div>
+            <div className="px-4 py-2 sm:px-6 sm:py-4">
+              <h2 className="text-muted-foreground">
+                Art is <span className="italic underline">not</span> timeless.
+              </h2>
+            </div>
           </header>
           {children}
         </ThemeProvider>

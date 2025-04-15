@@ -27,3 +27,7 @@ export const artworksSchema = z.object({
     ),
   }),
 });
+
+export type Artwork = z.infer<
+  typeof artworksSchema
+>["_embedded"]["artworks"][0];
