@@ -2,6 +2,8 @@ import { SliderForm } from "@/components/slider-form";
 import { getArtwork, getToken } from "@/lib/api";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const { token } = await getToken();
 
