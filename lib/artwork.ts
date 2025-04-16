@@ -16,8 +16,11 @@ export function getSuccess(artwork: Artwork, value: number) {
 }
 
 function calculatePoints(answer: number, guess: number) {
-  return (
-    MAX_POINTS - (Math.abs(answer - guess) / (MAX_DATE - MIN_DATE)) * MAX_POINTS
+  return Math.max(
+    0,
+    MAX_POINTS -
+      (Math.pow(Math.abs(answer - guess), 1.25) / (MAX_DATE - MIN_DATE)) *
+        MAX_POINTS
   );
 }
 
