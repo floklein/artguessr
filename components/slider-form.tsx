@@ -70,7 +70,7 @@ export function SliderForm({ artwork }: { artwork: Artwork }) {
               variant="ghost"
               size="icon"
               onClick={decrementGuess}
-              disabled={guess === MIN_DATE}
+              disabled={guess === MIN_DATE || !!result}
             >
               <ChevronLeft />
             </Button>
@@ -89,7 +89,7 @@ export function SliderForm({ artwork }: { artwork: Artwork }) {
               variant="ghost"
               size="icon"
               onClick={incrementGuess}
-              disabled={guess === MAX_DATE}
+              disabled={guess === MAX_DATE || !!result}
             >
               <ChevronRight />
             </Button>
