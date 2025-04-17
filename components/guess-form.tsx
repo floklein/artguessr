@@ -13,10 +13,8 @@ import { cn } from "@/lib/utils";
 import { Artwork } from "@/types";
 import NumberFlow from "@number-flow/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
 export function GuessForm({ artwork }: { artwork: Artwork }) {
   const router = useRouter();
@@ -59,7 +57,7 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
         <div className="border-b p-4 flex items-center gap-4 justify-between">
           <div>
             <p>{artwork.title}</p>
-            <p className="text-muted-foreground">
+            {/* <p className="text-muted-foreground">
               {artwork.artists.map((artist) => (
                 <HoverCard key={artist.id}>
                   <HoverCardTrigger asChild>
@@ -101,10 +99,10 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
                   </HoverCardContent>
                 </HoverCard>
               ))}
-            </p>
+            </p> */}
           </div>
           <div className="font-serif whitespace-nowrap text-2xl text-green-500">
-            {artwork.date}
+            {artwork.date_display}
           </div>
         </div>
       )}

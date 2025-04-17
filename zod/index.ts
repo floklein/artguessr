@@ -1,53 +1,21 @@
 import { z } from "zod";
 
-export const xappTokenSchema = z.object({
-  token: z.string(),
-});
-
 export const artworksSchema = z.object({
-  _embedded: z.object({
-    artworks: z.array(
-      z.object({
-        id: z.string(),
-        title: z.string(),
-        date: z.string(),
-        _links: z.object({
-          image: z.object({
-            href: z.string(),
-          }),
-          artists: z.object({
-            href: z.string(),
-          }),
-        }),
-      })
-    ),
-  }),
-});
-
-export const artistsSchema = z.object({
-  _embedded: z.object({
-    artists: z.array(
-      z.object({
-        id: z.string(),
-        slug: z.string(),
-        name: z.string(),
-        biography: z.string(),
-        birthday: z.string(),
-        deathday: z.string(),
-        nationality: z.string(),
-        location: z.string(),
-        _links: z.object({
-          image: z.object({
-            href: z.string(),
-          }),
-          thumbnail: z.object({
-            href: z.string(),
-          }),
-          permalink: z.object({
-            href: z.string(),
-          }),
-        }),
-      })
-    ),
-  }),
+  data: z.array(
+    z.object({
+      id: z.number(),
+      title: z.string(),
+      date_display: z.string(),
+      date_start: z.number(),
+      date_end: z.number(),
+      artist_display: z.string(),
+      thumbnail: z.object({
+        lqip: z.string(),
+        width: z.number(),
+        height: z.number(),
+        alt_text: z.string(),
+      }),
+      image_id: z.string(),
+    })
+  ),
 });

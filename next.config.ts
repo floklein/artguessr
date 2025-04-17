@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     reactCompiler: true,
   },
   images: {
-    remotePatterns: [new URL("https://d32dm0rphc51dk.cloudfront.net/**")],
+    remotePatterns: [new URL("https://www.artic.edu/**")],
   },
 };
 

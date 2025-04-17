@@ -5,12 +5,7 @@ export const MIN_DATE = 0;
 export const MAX_DATE = 2025;
 
 export function getSuccess(artwork: Artwork, value: number) {
-  if ("parsedDateRange" in artwork) {
-    return (
-      value >= artwork.parsedDateRange[0] && value <= artwork.parsedDateRange[1]
-    );
-  }
-  return value === artwork.parsedDate;
+  return value >= artwork.date_start && value <= artwork.date_end;
 }
 
 function calculatePoints(answer: number, guess: number) {
@@ -23,19 +18,13 @@ function calculatePoints(answer: number, guess: number) {
 }
 
 export function getPoints(artwork: Artwork, guess: number) {
-  if ("parsedDateRange" in artwork) {
-    if (
-      guess >= artwork.parsedDateRange[0] &&
-      guess <= artwork.parsedDateRange[1]
-    ) {
-      return MAX_POINTS;
-    }
-    return Math.floor(
-      Math.max(
-        calculatePoints(artwork.parsedDateRange[0], guess),
-        calculatePoints(artwork.parsedDateRange[1], guess)
-      )
-    );
+  if (guess >= artwork.date_start && guess <= artwork.date_end) {
+    return MAX_POINTS;
   }
-  return Math.floor(calculatePoints(artwork.parsedDate, guess));
+  return Math.floor(
+    Math.max(
+      calculatePoints(artwork.date_start, guess),
+      calculatePoints(artwork.date_end, guess)
+    )
+  );
 }
