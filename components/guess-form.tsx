@@ -74,12 +74,18 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
                         alt={artist.name}
                         width={100}
                         height={100}
+                        className="object-cover w-auto h-auto"
                       />
                       <div className="space-y-1">
                         <h4 className="text-sm font-semibold">{artist.name}</h4>
                         <p className="text-xs text-muted-foreground">
-                          {artist.nationality}, {artist.birthday} –{" "}
-                          {artist.deathday}
+                          {artist.nationality.length
+                            ? `${artist.nationality}, `
+                            : ""}
+                          {artist.birthday}
+                          {artist.deathday.length
+                            ? ` - ${artist.deathday}`
+                            : ""}
                         </p>
                         <a
                           href={artist._links.permalink.href}

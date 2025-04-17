@@ -16,6 +16,7 @@ export default async function Home() {
         alt={artwork.title}
         width={500}
         height={500}
+        priority
         className="block flex-1 h-auto w-auto object-contain"
       />
       <GuessForm artwork={artwork} />
