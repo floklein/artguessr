@@ -63,7 +63,7 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
               {artwork.artists.map((artist) => (
                 <HoverCard key={artist.id}>
                   <HoverCardTrigger asChild>
-                    <button className="cursor-help border-b border-dashed border-muted-foreground">
+                    <button className="cursor-help text-left underline decoration-dotted underline-offset-4">
                       {artist.name}
                     </button>
                   </HoverCardTrigger>
