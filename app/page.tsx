@@ -1,4 +1,4 @@
-import { SliderForm } from "@/components/slider-form";
+import { GuessForm } from "@/components/guess-form";
 import { getArtwork, getToken } from "@/lib/api";
 import Image from "next/image";
 
@@ -18,7 +18,7 @@ export default async function Home() {
         height={500}
         className="block flex-1 h-auto w-auto object-contain"
       />
-      <SliderForm artwork={artwork} />
+      <GuessForm artwork={artwork} />
     </main>
   );
 }

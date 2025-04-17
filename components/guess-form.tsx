@@ -16,7 +16,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function SliderForm({ artwork }: { artwork: Artwork }) {
+export function GuessForm({ artwork }: { artwork: Artwork }) {
   const router = useRouter();
 
   const [guess, setGuess] = useState<number>(1000);
