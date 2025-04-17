@@ -12,7 +12,20 @@ export const artworkSchema = z.object({
 });
 
 export const artworksSchema = z.object({
-  data: z.array(artworkSchema.partial()),
+  data: z.array(
+    z
+      .object({
+        id: z.number().nullable(),
+        title: z.string().nullable(),
+        date_display: z.string().nullable(),
+        date_start: z.number().nullable(),
+        date_end: z.number().nullable(),
+        artist_id: z.number().nullable(),
+        artist_title: z.string().nullable(),
+        image_id: z.string().nullable(),
+      })
+      .partial()
+  ),
 });
 
 export const artistSchema = z.object({

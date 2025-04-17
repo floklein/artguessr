@@ -34,6 +34,7 @@ export async function getArtwork(retry = 0): Promise<Artwork> {
       artist,
     };
   } catch (error) {
+    console.error(error);
     console.log("retry", retry + 1);
     return getArtwork(retry + 1);
   }
