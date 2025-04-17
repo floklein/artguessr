@@ -17,6 +17,11 @@ export default async function Home() {
         priority
         className="block flex-1 h-auto w-auto object-contain"
       />
+      {process.env.NODE_ENV === "development" && (
+        <div>
+          ID: <code>{artwork.id}</code>
+        </div>
+      )}
       <GuessForm artwork={artwork} />
     </main>
   );
