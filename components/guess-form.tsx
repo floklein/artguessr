@@ -57,49 +57,14 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
         <div className="border-b p-4 flex items-center gap-4 justify-between">
           <div>
             <p>{artwork.title}</p>
-            {/* <p className="text-muted-foreground">
-              {artwork.artists.map((artist) => (
-                <HoverCard key={artist.id}>
-                  <HoverCardTrigger asChild>
-                    <button className="cursor-help text-left underline decoration-dotted underline-offset-4">
-                      {artist.name}
-                    </button>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="w-80">
-                    <div className="flex space-x-4">
-                      <Image
-                        src={artist._links.thumbnail.href}
-                        alt={artist.name}
-                        width={100}
-                        height={100}
-                        className="object-cover w-auto h-auto"
-                      />
-                      <div className="space-y-1">
-                        <h4 className="text-sm font-semibold">{artist.name}</h4>
-                        <p className="text-xs text-muted-foreground">
-                          {artist.nationality.length
-                            ? `${artist.nationality}, `
-                            : ""}
-                          {artist.birthday}
-                          {artist.deathday.length
-                            ? ` - ${artist.deathday}`
-                            : ""}
-                        </p>
-                        <a
-                          href={artist._links.permalink.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Button variant="link" className="p-0">
-                            Learn more
-                          </Button>
-                        </a>
-                      </div>
-                    </div>
-                  </HoverCardContent>
-                </HoverCard>
-              ))}
-            </p> */}
+            <p className="text-muted-foreground">
+              {artwork.artist_title}{" "}
+              {(artwork.artist.birth_date || artwork.artist.death_date) && (
+                <span className="text-xs">
+                  ({artwork.artist.birth_date} - {artwork.artist.death_date})
+                </span>
+              )}
+            </p>
           </div>
           <div className="font-serif whitespace-nowrap text-2xl text-green-500">
             {artwork.date_display}

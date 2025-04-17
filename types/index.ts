@@ -1,4 +1,10 @@
-import { artworksSchema } from "@/zod";
+import { artistSchema, artworkSchema } from "@/zod";
 import { z } from "zod";
 
-export type Artwork = z.infer<typeof artworksSchema>["data"][0];
+export type ApiArtwork = z.infer<typeof artworkSchema>;
+
+export type ApiArtist = z.infer<typeof artistSchema>["data"];
+
+export type Artwork = ApiArtwork & {
+  artist: ApiArtist;
+};
