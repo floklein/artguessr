@@ -66,7 +66,7 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
               )}
             </p>
           </div>
-          <div className="font-serif whitespace-nowrap text-2xl text-green-500">
+          <div className="font-serif text-2xl text-green-500">
             {artwork.date_display}
           </div>
         </div>
@@ -117,7 +117,7 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
         <div className="border-t p-4 flex gap-4">
           {result ? (
             <>
-              <div className="text-white text-lg flex-1 flex items-center justify-center">
+              <div className="text-lg flex-1 flex items-center justify-center">
                 <div>
                   <span className="font-bold">{result.points}&nbsp;</span>
                   <span className="text-sm text-muted-foreground">
