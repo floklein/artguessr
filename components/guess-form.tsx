@@ -12,9 +12,9 @@ import {
 import { cn } from "@/lib/utils";
 import { Artwork } from "@/types";
 import NumberFlow from "@number-flow/react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function GuessForm({ artwork }: { artwork: Artwork }) {
   const router = useRouter();
@@ -24,6 +24,7 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
     success: boolean;
     points: number;
   } | null>(null);
+  const [loading, setLoading] = useState(false);
 
   function changeGuess(value: number[]) {
     setGuess(value[0]);
@@ -46,10 +47,15 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
   }
 
   function playAgain() {
-    setGuess(1000);
-    setResult(null);
+    setLoading(true);
     router.refresh();
   }
+
+  useEffect(() => {
+    setGuess(1000);
+    setResult(null);
+    setLoading(false);
+  }, [artwork.id]);
 
   return (
     <div className="max-w-xl w-full border">
@@ -130,7 +136,9 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
                 variant="secondary"
                 className="flex-1"
                 onClick={playAgain}
+                disabled={loading}
               >
+                {loading && <Loader2 className="animate-spin" />}
                 Play again
               </Button>
             </>
