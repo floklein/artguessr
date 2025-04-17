@@ -1,9 +1,9 @@
-import { ApiArtwork, Artwork } from "@/types";
-import { artworksSchema, xappTokenSchema } from "@/zod";
+import { ApiArtwork, Artwork, WithDate, WithDateRange } from "@/types";
+import { artistsSchema, artworksSchema, xappTokenSchema } from "@/zod";
 import { env } from "@/zod/env";
 import { findMap } from "./utils";
 
-// const ARTWORKS_LENGTH = 27577;
+const ARTWORKS_LENGTH = 27577;
 
 export async function getToken() {
   return xappTokenSchema.parse(
@@ -22,9 +22,20 @@ export async function getToken() {
   );
 }
 
+export async function getArtists(token: string, href: string) {
+  const response = await (
+    await fetch(href, {
+      headers: {
+        "X-Xapp-Token": token,
+      },
+    })
+  ).json();
+  return artistsSchema.parse(response);
+}
+
 export async function getArtwork(token: string, retry = 0): Promise<Artwork> {
-  if (retry > 3) {
-    throw new Error("No artwork with valid date found after 3 retries");
+  if (retry > 10) {
+    throw new Error("No artwork with valid date found after 10 retries");
   }
   const {
     _embedded: { artworks },
@@ -32,8 +43,8 @@ export async function getArtwork(token: string, retry = 0): Promise<Artwork> {
     await (
       await fetch(
         `https://api.artsy.net/api/artworks?${new URLSearchParams({
-          size: "10",
-          offset: Math.floor(Math.random() * 1000).toString(),
+          size: "1",
+          offset: Math.floor(Math.random() * ARTWORKS_LENGTH).toString(),
         })}`,
         {
           headers: {
@@ -43,7 +54,7 @@ export async function getArtwork(token: string, retry = 0): Promise<Artwork> {
       )
     ).json()
   );
-  const artworkWithValidDate = findMap<ApiArtwork, Artwork>(
+  const artwork = findMap<ApiArtwork, ApiArtwork & (WithDate | WithDateRange)>(
     artworks,
     (artwork) => {
       const date = artwork.date.match(/\d{3,4}/);
@@ -65,8 +76,14 @@ export async function getArtwork(token: string, retry = 0): Promise<Artwork> {
       }
     }
   );
-  if (!artworkWithValidDate) {
+  if (!artwork) {
     return await getArtwork(token, retry + 1);
   }
-  return artworkWithValidDate;
+  const {
+    _embedded: { artists },
+  } = await getArtists(token, artwork._links.artists.href);
+  return {
+    ...artwork,
+    artists,
+  };
 }

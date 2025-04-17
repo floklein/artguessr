@@ -1,5 +1,3 @@
-import { isArtworkWithDateRange } from "@/types";
-
 import { Artwork } from "@/types";
 
 export const MAX_POINTS = 5000;
@@ -7,7 +5,7 @@ export const MIN_DATE = 0;
 export const MAX_DATE = 2025;
 
 export function getSuccess(artwork: Artwork, value: number) {
-  if (isArtworkWithDateRange(artwork)) {
+  if ("parsedDateRange" in artwork) {
     return (
       value >= artwork.parsedDateRange[0] && value <= artwork.parsedDateRange[1]
     );
@@ -25,7 +23,7 @@ function calculatePoints(answer: number, guess: number) {
 }
 
 export function getPoints(artwork: Artwork, guess: number) {
-  if (isArtworkWithDateRange(artwork)) {
+  if ("parsedDateRange" in artwork) {
     if (
       guess >= artwork.parsedDateRange[0] &&
       guess <= artwork.parsedDateRange[1]

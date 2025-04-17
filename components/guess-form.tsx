@@ -13,8 +13,10 @@ import { cn } from "@/lib/utils";
 import { Artwork } from "@/types";
 import NumberFlow from "@number-flow/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
 export function GuessForm({ artwork }: { artwork: Artwork }) {
   const router = useRouter();
@@ -55,10 +57,49 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
     <div className="max-w-xl w-full border">
       {result && (
         <div className="border-b p-4 flex items-center gap-4 justify-between">
-          <span className="text-muted-foreground">{artwork.title}</span>
-          <span className="font-serif whitespace-nowrap text-2xl text-green-500">
+          <div>
+            <p>{artwork.title}</p>
+            <p className="text-muted-foreground">
+              {artwork.artists.map((artist) => (
+                <HoverCard key={artist.id}>
+                  <HoverCardTrigger asChild>
+                    <span className="cursor-help border-b border-dashed border-muted-foreground">
+                      {artist.name}
+                    </span>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="w-80">
+                    <div className="flex space-x-4">
+                      <Image
+                        src={artist._links.thumbnail.href}
+                        alt={artist.name}
+                        width={100}
+                        height={100}
+                      />
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-semibold">{artist.name}</h4>
+                        <p className="text-xs text-muted-foreground">
+                          {artist.nationality}, {artist.birthday} –{" "}
+                          {artist.deathday}
+                        </p>
+                        <a
+                          href={artist._links.permalink.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Button variant="link" className="p-0">
+                            Learn more
+                          </Button>
+                        </a>
+                      </div>
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
+              ))}
+            </p>
+          </div>
+          <div className="font-serif whitespace-nowrap text-2xl text-green-500">
             {artwork.date}
-          </span>
+          </div>
         </div>
       )}
       <form onSubmit={submitForm}>

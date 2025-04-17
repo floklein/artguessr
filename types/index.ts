@@ -1,20 +1,22 @@
-import { artworksSchema } from "@/zod";
+import { artistsSchema, artworksSchema } from "@/zod";
 import { z } from "zod";
 
 export type ApiArtwork = z.infer<
   typeof artworksSchema
 >["_embedded"]["artworks"][0];
 
-export type ArtworkWithDate = ApiArtwork & { parsedDate: number };
+export type WithDate = {
+  parsedDate: number;
+};
 
-export type ArtworkWithDateRange = ApiArtwork & {
+export type WithDateRange = {
   parsedDateRange: [number, number];
 };
 
-export type Artwork = ArtworkWithDate | ArtworkWithDateRange;
+export type Artists = z.infer<typeof artistsSchema>["_embedded"]["artists"];
 
-export function isArtworkWithDateRange(
-  artwork: Artwork
-): artwork is ArtworkWithDateRange {
-  return "parsedDateRange" in artwork;
-}
+export type WithArtists = {
+  artists: Artists;
+};
+
+export type Artwork = ApiArtwork & (WithDate | WithDateRange) & WithArtists;
