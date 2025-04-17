@@ -63,9 +63,9 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
               {artwork.artists.map((artist) => (
                 <HoverCard key={artist.id}>
                   <HoverCardTrigger asChild>
-                    <span className="cursor-help border-b border-dashed border-muted-foreground">
+                    <button className="cursor-help border-b border-dashed border-muted-foreground">
                       {artist.name}
-                    </span>
+                    </button>
                   </HoverCardTrigger>
                   <HoverCardContent className="w-80">
                     <div className="flex space-x-4">
