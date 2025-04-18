@@ -55,7 +55,7 @@ export function GuessForm({ artwork }: { artwork: Artwork }) {
     setGuess(1000);
     setResult(null);
     setLoading(false);
-  }, [artwork.id]);
+  }, [artwork]);
 
   return (
     <>

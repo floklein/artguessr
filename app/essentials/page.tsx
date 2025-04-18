@@ -1,11 +1,11 @@
 import { GuessForm } from "@/components/guess-form";
-import { getRandomArtwork } from "@/lib/api";
+import { getRandomEssentialsArtwork } from "@/lib/api";
 import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
-  const artwork = await getRandomArtwork();
+export default async function Essentials() {
+  const artwork = await getRandomEssentialsArtwork();
 
   return (
     <main className="flex-1 flex flex-col gap-4 sm:gap-8 p-4 sm:p-8 items-center overflow-hidden">

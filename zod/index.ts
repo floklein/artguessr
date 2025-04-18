@@ -11,7 +11,11 @@ export const artworkSchema = z.object({
   image_id: z.string(),
 });
 
-export const artworksSchema = z.object({
+export const apiArtworkSchema = z.object({
+  data: artworkSchema,
+});
+
+export const apiArtworksSchema = z.object({
   data: z.array(
     z
       .object({
@@ -28,11 +32,19 @@ export const artworksSchema = z.object({
   ),
 });
 
-export const artistSchema = z.object({
+export const apiArtistSchema = z.object({
   data: z.object({
     id: z.number(),
     title: z.string(),
     birth_date: z.number().nullable(),
     death_date: z.number().nullable(),
   }),
+});
+
+export const apiArtworksSearchSchema = z.object({
+  data: z.array(
+    z.object({
+      id: z.number(),
+    })
+  ),
 });
