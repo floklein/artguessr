@@ -1,8 +1,11 @@
 import { ApiArtist, ApiArtwork, Artwork } from "@/types";
 import {
+  apiArtistFields,
   apiArtistSchema,
+  apiArtworkFields,
   apiArtworkSchema,
   apiArtworksSchema,
+  apiArtworksSearchFields,
   apiArtworksSearchSchema,
   artworkSchema,
 } from "@/zod";
@@ -14,12 +17,16 @@ export async function getRandomArtwork(retry = 0): Promise<Artwork> {
   if (retry > 10) {
     throw new Error("No valid artwork found after 10 retries");
   }
+  if (retry > 0) {
+    console.log("retry", retry);
+  }
   try {
     const { data } = apiArtworksSchema.parse(
       await (
         await fetch(
           `https://api.artic.edu/api/v1/artworks?${new URLSearchParams({
             page: Math.ceil(Math.random() * ARTWORKS_PAGES).toString(),
+            fields: apiArtworkFields,
           })}`
         )
       ).json()
@@ -42,14 +49,19 @@ export async function getRandomArtwork(retry = 0): Promise<Artwork> {
     };
   } catch (error) {
     console.error(error);
-    console.log("retry", retry + 1);
     return getRandomArtwork(retry + 1);
   }
 }
 
 export async function getArtwork(id: number): Promise<Artwork> {
   const { data: artwork } = apiArtworkSchema.parse(
-    await (await fetch(`https://api.artic.edu/api/v1/artworks/${id}`)).json()
+    await (
+      await fetch(
+        `https://api.artic.edu/api/v1/artworks/${id}?${new URLSearchParams({
+          fields: apiArtworkFields,
+        })}`
+      )
+    ).json()
   );
   const artist = await getArtist(artwork.artist_id);
   return {
@@ -62,17 +74,20 @@ export async function getRandomEssentialsArtwork(retry = 0): Promise<Artwork> {
   if (retry > 10) {
     throw new Error("No valid artwork found after 10 retries");
   }
+  if (retry > 0) {
+    console.log("retry", retry);
+  }
   try {
     const { data } = apiArtworksSearchSchema.parse(
       await (
         await fetch(
-          `https://api.artic.edu/api/v1/artworks/search?query[term][category_ids]=PC-831&${new URLSearchParams(
-            {
-              page: Math.ceil(
-                Math.random() * ESSENTIALS_ARTWORKS_PAGES
-              ).toString(),
-            }
-          )}`
+          `https://api.artic.edu/api/v1/artworks/search?${new URLSearchParams({
+            "query[term][category_ids]": "PC-831",
+            page: Math.ceil(
+              Math.random() * ESSENTIALS_ARTWORKS_PAGES
+            ).toString(),
+            fields: apiArtworksSearchFields,
+          })}`
         )
       ).json()
     );
@@ -80,13 +95,18 @@ export async function getRandomEssentialsArtwork(retry = 0): Promise<Artwork> {
     return await getArtwork(artwork.id);
   } catch (error) {
     console.error(error);
-    console.log("retry", retry + 1);
     return getRandomEssentialsArtwork(retry + 1);
   }
 }
 
 export async function getArtist(id: number): Promise<ApiArtist> {
   return apiArtistSchema.parse(
-    await (await fetch(`https://api.artic.edu/api/v1/artists/${id}`)).json()
+    await (
+      await fetch(
+        `https://api.artic.edu/api/v1/artists/${id}?${new URLSearchParams({
+          fields: apiArtistFields,
+        })}`
+      )
+    ).json()
   ).data;
 }

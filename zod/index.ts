@@ -32,6 +32,9 @@ export const apiArtworksSchema = z.object({
   ),
 });
 
+export const apiArtworkFields =
+  "id,title,date_display,date_start,date_end,artist_id,artist_title,image_id";
+
 export const apiArtistSchema = z.object({
   data: z.object({
     id: z.number(),
@@ -41,6 +44,8 @@ export const apiArtistSchema = z.object({
   }),
 });
 
+export const apiArtistFields = "id,title,birth_date,death_date";
+
 export const apiArtworksSearchSchema = z.object({
   data: z.array(
     z.object({
@@ -48,3 +53,5 @@ export const apiArtworksSearchSchema = z.object({
     })
   ),
 });
+
+export const apiArtworksSearchFields = "id";
