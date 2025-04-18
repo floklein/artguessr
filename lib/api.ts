@@ -58,22 +58,31 @@ export async function getArtwork(id: number): Promise<Artwork> {
   };
 }
 
-export async function getRandomEssentialsArtwork(): Promise<Artwork> {
-  const { data } = apiArtworksSearchSchema.parse(
-    await (
-      await fetch(
-        `https://api.artic.edu/api/v1/artworks/search?query[term][category_ids]=PC-831&${new URLSearchParams(
-          {
-            page: Math.ceil(
-              Math.random() * ESSENTIALS_ARTWORKS_PAGES
-            ).toString(),
-          }
-        )}`
-      )
-    ).json()
-  );
-  const artwork = data[Math.floor(Math.random() * data.length)];
-  return getArtwork(artwork.id);
+export async function getRandomEssentialsArtwork(retry = 0): Promise<Artwork> {
+  if (retry > 10) {
+    throw new Error("No valid artwork found after 10 retries");
+  }
+  try {
+    const { data } = apiArtworksSearchSchema.parse(
+      await (
+        await fetch(
+          `https://api.artic.edu/api/v1/artworks/search?query[term][category_ids]=PC-831&${new URLSearchParams(
+            {
+              page: Math.ceil(
+                Math.random() * ESSENTIALS_ARTWORKS_PAGES
+              ).toString(),
+            }
+          )}`
+        )
+      ).json()
+    );
+    const artwork = data[Math.floor(Math.random() * data.length)];
+    return await getArtwork(artwork.id);
+  } catch (error) {
+    console.error(error);
+    console.log("retry", retry + 1);
+    return getRandomEssentialsArtwork(retry + 1);
+  }
 }
 
 export async function getArtist(id: number): Promise<ApiArtist> {
