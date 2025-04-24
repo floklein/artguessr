@@ -39,7 +39,7 @@ export async function getRandomArtwork(retry = 0): Promise<Artwork> {
       return acc;
     }, []);
     if (artworks.length === 0) {
-      return getRandomArtwork(retry + 1);
+      return await getRandomArtwork(retry + 1);
     }
     const artwork = artworks[Math.floor(Math.random() * artworks.length)];
     const artist = await getArtist(artwork.artist_id);
@@ -49,7 +49,7 @@ export async function getRandomArtwork(retry = 0): Promise<Artwork> {
     };
   } catch (error) {
     console.error(error);
-    return getRandomArtwork(retry + 1);
+    return await getRandomArtwork(retry + 1);
   }
 }
 
@@ -91,11 +91,24 @@ export async function getRandomEssentialsArtwork(retry = 0): Promise<Artwork> {
         )
       ).json()
     );
-    const artwork = data[Math.floor(Math.random() * data.length)];
-    return await getArtwork(artwork.id);
+    let artwork: Artwork | null = null;
+    while (data.length && !artwork) {
+      try {
+        const randomIndex = Math.floor(Math.random() * data.length);
+        const searchResult = data.splice(randomIndex, 1)[0];
+        artwork = await getArtwork(searchResult.id);
+        break;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    if (!artwork) {
+      return await getRandomEssentialsArtwork(retry + 1);
+    }
+    return artwork;
   } catch (error) {
     console.error(error);
-    return getRandomEssentialsArtwork(retry + 1);
+    return await getRandomEssentialsArtwork(retry + 1);
   }
 }
 
